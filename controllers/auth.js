@@ -5,7 +5,6 @@ const nodemailer = require("nodemailer");
 const { response } = require("express");
 
 
-
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -38,18 +37,95 @@ exports.register = (req, res) => {
         }    
         
         
-  //  let hashedPassword = await bcrypt.hash(password , 8);
-  //  console.log(hashedPassword);
-
+    //let hashedPassword = await bcrypt.hash(password , 8);
+    // console.log(hashedPassword);
+        
         db.query('INSERT INTO users SET ?' , {email:email , username :username , password:password , Age :Age , phonenumber :phonenumber } , (error,results)=>{
             if(error){
                 console.log(error)
             } else {
-                return res.render('signup' , {
-                    massage : 'User Registered'
-                });
+                res.render('home');
             }
         
         })
     }) 
+}
+
+exports.forgotPass = (req, res) => {
+    const email = req.body.email;
+    db.query('SELECT * FROM users WHERE email = ? ', [email] , (error , results) =>{
+        if(error){
+            console.log(error);
+        }
+        if(results.length > 0){
+            
+           const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'webbreakers2@gmail.com',
+                  pass: 'web2backend'
+                },
+                tls : { rejectUnauthorized: false }
+              });
+              
+              const mailOptions = {
+                from: 'webbreakers2@gmail.com',
+                to: req.body.email,
+                subject: 'Reset your password',
+                text: 'Hello \n please reset your password using this link http://localhost:5001/resetPass\n from webbreakers team'
+                
+              };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                  return res.render('forgotPass' , {
+                  message: 'check your email to reset your password.'
+                })
+                }
+              });
+
+        }
+        else{
+            return res.render('forgotPass' , {
+                message: 'email does not exists.'
+              })
+    }
+    })
+}
+
+
+
+exports.resetPass = (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const passwordConfirm = req.body.passwordConfirm;
+
+    if(password !== passwordConfirm){
+        return res.render('resetPass' , {
+            massage : 'password does not match.'
+        });
+    }
+    db.query('SELECT email FROM users WHERE email = ? ', [email] , (error , results) =>{ 
+        if(error){
+            console.log(error);
+        }
+        else if(results.length > 0){
+            db.query('UPDATE users SET password = ? WHERE email = ?', [password, email], function (err, result) {
+                if (err) throw err;
+                console.log(result);
+                res.render('signin');
+              });
+
+        }
+        else{
+            return res.render('resetPass' , {
+                message: 'email does not exists.'
+              })
+        } 
+
+    })
+
 }
