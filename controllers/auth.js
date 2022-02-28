@@ -129,3 +129,25 @@ exports.resetPass = (req, res) => {
     })
 
 }
+
+
+
+
+// login area
+exports.signin = (req, res) => {
+    console.log(req.body);
+    const { email , password} = req.body;
+    db.query('SELECT * FROM users WHERE email  = ? AND password = ? ', [email, password] , (error , results) =>{
+       if(error){
+             console.log(error);
+        }
+         if(results.length > 0){
+             return res.render('home')            
+        }
+        else {
+            return res.render('signin' , {
+                message: 'There is wrong with the password or the username.'
+              })
+        }
+    })
+}
