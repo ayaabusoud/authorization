@@ -4,43 +4,44 @@
         <title>SignUp</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="../public/style.css" rel="stylesheet">
+        <link href="../style.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
+        
         <div class="container2">
 
   <div class="signup-signup">
-    <form action="/auth/signup" method="POST" class="signup-form">
+    <form action="/auth/signup" method="POST" id="signup-form" >
         <h2 class="title">Sign Up</h2>
         {{#if message }}
         <h4 class="errorMsg">{{message}}</h4>
         {{/if}}
         <div class="input-field">
             <i class="fa-solid fa-user"></i>
-             <input type="text" placeholder="Username" name="username" id="">
+             <input type="text" placeholder="Username" name="username" required>
          </div>
         <div class="input-field">
            <i class="fa-solid fa-envelope"></i>
-            <input type="email" placeholder="Email" name="email" id="">
+            <input type="email" placeholder="Email" name="email" required>
         </div>
         <div class="input-field">
            <i class="fas fa-lock"></i>
-           <input type="password" placeholder="Password" name="password" id="">
+           <input type="password" placeholder="Password" name="password" required>
        </div>
        <div class="input-field">
         <i class="fas fa-lock"></i>
-        <input type="password" placeholder="Confirm Password" name="confirmpassword" id="">
+        <input type="password" placeholder="Confirm Password" name="passwordConfirm"  required>
     </div>
     <div class="input-field">
         <i class="fas fa-phone"></i>
-        <input type="tel" name="phonenumber" id="phone" placeholder="Phone Number">
+        <input type="tel" name="phonenumber" id="phone" placeholder="Phone Number" required>
     </div>
     <div class="input-field">
         <i class="fas fa-user"></i>
-        <input type="text" name="Age" id="age" placeholder="Age">
+        <input type="text" name="Age" id="age" placeholder="Age" required>
     </div>
-       <input class="btn" type="submit" value="SignUp"><br>
+       <input class="btn" id="submit" type="submit" value="SignUp"><br>
        
     </form> 
  </div>
@@ -53,11 +54,22 @@
             <p>Login again to listen to your playlist.</p>
             <button class="btn transparent" id="signin-button" onclick="window.location.href='/signin'">Signin</button>
         </div>
-        <img src="../images/2.svg" alt="image" class="image">
+        <img src="./images/2.svg" alt="image" class="image">
     </div>
 </div>
     </div>
 
+<script>
+      $("#submit").click(function(event) {
+  event.preventDefault();
+  if($(this).val().length === 0) {
+    document.getElementsByClassName("errorMsg").value ="empty field";
+  } else {
+    $("#signup-form").submit();
+  }
+});
+  </script>
   
     </body>
+
 </html>
