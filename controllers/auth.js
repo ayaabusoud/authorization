@@ -44,7 +44,32 @@ exports.register = (req, res) => {
             if(error){
                 console.log(error)
             } else {
-                res.render('home');
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                      user: 'webbreakers2@gmail.com',
+                      pass: 'web2backend'
+                    },
+                    tls : { rejectUnauthorized: false }
+                  });
+                  
+                  const mailOptions = {
+                    from: 'webbreakers2@gmail.com',
+                    to: req.body.email,
+                    subject: 'Email verfication',
+                    text: 'Hello! \n To start exploring our website please click on this link http://localhost:5001/home\n from webbreakers team'
+                    
+                  };
+                 
+    
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                      res.render('emailVerfication');
+                    }
+                  });
             }
         
         })
@@ -159,4 +184,3 @@ exports.google = (req,res) => {
 
 res.send('this google');
 }
-
