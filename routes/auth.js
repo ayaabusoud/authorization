@@ -6,4 +6,5 @@ router.post('/signup', authController.register)
 router.post('/forgotPass', authController.forgotPass)
 router.post('/resetPass', authController.resetPass)
 router.post('/signin', authController.signin)
+router.post('/resendEmail', authController.resendEmail)
 module.exports = router;
