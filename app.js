@@ -3,10 +3,11 @@ const path = require("path");
 const sql = require("mysql");
 const passport = require("passport");
 const passPort = require("./utilities/passportAuth");
+const dotenv = require("dotenv");
+
 
 
 passPort(passport);
-
 
 const app = express();
 
@@ -17,12 +18,16 @@ app.use(passport.session());
 
 
 
+dotenv.config({ path:'./.env' });
+
 const db = sql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'nodejsas-login'
-});
+    host:process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password:process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE
+})
+
+
 const publicDirectory = path.join(__dirname, './public')
     // console.log(__dirname);
 app.use(express.static(publicDirectory));
@@ -50,7 +55,7 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    console.log(req.user);
+    // console.log(req.user);
     res.redirect('/home');
   });
 
