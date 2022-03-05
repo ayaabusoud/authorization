@@ -151,3 +151,12 @@ exports.signin = (req, res) => {
         }
     })
 }
+
+
+// GOOGLE SIGN IN
+
+exports.google = (req,res) => {
+
+res.send('this google');
+}
+

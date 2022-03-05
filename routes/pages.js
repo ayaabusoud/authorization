@@ -21,4 +21,8 @@ router.get('/forgotPass', (req, res) => {
 router.get('/resetPass', (req, res) => {
     res.render('resetPass');
 });
+
+router.get('/home', (req, res) => {
+    res.render('home');
+});
 module.exports = router;
