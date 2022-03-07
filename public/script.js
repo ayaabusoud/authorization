@@ -111,7 +111,6 @@ function next_song() {
 }
 
 
-// previous song
 function previous_song() {
     if (index_no > 0) {
         index_no -= 1;
@@ -126,19 +125,16 @@ function previous_song() {
 }
 
 
-// change volume
 function volume_change() {
     volume_show.innerHTML = recent_volume.value;
     track.volume = recent_volume.value / 100;
 }
 
-// change slider position 
 function change_duration() {
     slider_position = track.duration * (slider.value / 100);
     track.currentTime = slider_position;
 }
 
-// autoplay function
 function autoplay_switch() {
     if (autoplay == 1) {
         autoplay = 0;
@@ -160,7 +156,6 @@ function range_slider() {
     }
 
 
-    // function will run when the song is over
     if (track.ended) {
         play.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
         if (autoplay == 1) {
