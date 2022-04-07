@@ -196,6 +196,7 @@ exports.signin = (req, res) => {
              console.log(error);
         }
          if(results.length > 0){
+             req.session.userID = req.body;
              return res.render('home')            
         }
         else {
