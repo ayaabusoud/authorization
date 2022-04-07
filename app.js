@@ -4,7 +4,34 @@ const sql = require("mysql");
 const passport = require("passport");
 const passPort = require("./utilities/passportAuth");
 const dotenv = require("dotenv");
+const session = require ('express-session');
+const bodyParser = require("body-parser");
 
+const two_hours = 1000*60*60*2;
+
+const{
+  session_lifetime = two_hours,
+  Node_env ='development',
+  sess_name = 'sid',
+  sess_secret ='ssh!quiet,it\'asecret!'
+} = process.env
+
+const IN_PROD = Node_env === 'production'
+app.use(bodyParser.urlencoded({
+  extended:true
+}))
+
+app.use(session({
+  name :sess_name,
+  resave: false,
+  saveUninitialized:false,
+  secret:sess_secret,
+  cookie:{
+    maxAge:session_lifetime,
+    sameSite: true,
+    secure : IN_PROD
+  }
+}))
 
 
 passPort(passport);
