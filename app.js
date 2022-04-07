@@ -88,8 +88,13 @@ app.get('/auth/google/callback',
 
 
   app.post('/logout', function(req, res, next) {
-    req.logout();
-    res.redirect('/');
+    req.session.destroy(err =>{
+      if(err){
+        return res.redirect('/home')
+      }
+      res.clearCookie(sess_name)
+      res.redirect('/');
+    })
   });
 
 
