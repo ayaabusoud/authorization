@@ -2,7 +2,16 @@ const express = require("express");
 
 const router = express.Router();
 
+const redirectLogin = (req,res,next) =>{
+    if (!req.session.userID){
+      res.redirect('/signin')
+    }else{
+        next()
+    }
+  }
+
 router.get('/', (req, res) => {
+    const{userID} = req.session;
     res.render('signin');
 });
 
