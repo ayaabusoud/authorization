@@ -31,7 +31,7 @@ router.get('/resetPass', (req, res) => {
     res.render('resetPass');
 });
 
-router.get('/home', (req, res) => {
+router.get('/home',redirectLogin, (req, res) => {
     res.render('home');
 });
 
